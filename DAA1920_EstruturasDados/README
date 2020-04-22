@@ -1,0 +1,83 @@
+
+Este arquivo contém implementações de estruturas de dados e estará disponível para utilização nas aulas e nas provas práticas de DAA (CC2001) - 2019/2020.
+
+***************************
+ATENÇÃO:  Nas submissões ao Mooshak, deverão colocar num ÚNICO ficheiro todo o código
+    que utilizarem destas bibliotecas, além do programa que resolve o problema proposto.
+******************************************************************************************
+
+
+===================
+    Java
+=====================================
+
+    O diretório  Mooshak_Java/  contém implementações para grafos e para filas de prioridade.
+
+
+       //------------------ Grafos dirigidos (com 0, 1, 2 pesos)
+       // NOTE BEM: Assume-se que os nós do grafo são numerados de 1 a n sendo n o número de nós
+       //-------------------------------------------------------------------------
+      
+       Grafo0.java
+           Grafo dirigido sem pesos nas arestas
+
+       Grafo.java
+           Grafo dirigido com um peso (int) em cada aresta
+
+       Grafo2.java
+           Grafo dirigido com dois pesos (int) em cada aresta
+
+       //----------- Filas de prioridade  (com chaves inteiras)
+       //  NOTE BEM: As implementações não são genéricas. 
+       //     São especializadas para facilitar a implementação dos algoritmos de Dijkstra e Prim 
+       //     assumindo que os nós do grafo são numerados de 1 a n.
+
+       HeapMax.java
+
+       HeapMin.java
+
+
+
+=============
+Linguagem C
+============================
+
+O diretório  Mooshak_Clang/  contém ficheiros .h  que têm também a definição das funções disponíveis, além dos seus protótipos.
+
+//------------------ Grafos dirigidos (com 0, 1, 2 pesos)
+// NOTE BEM: Assume-se que os nós do grafo são numerados de 1 a n sendo n o número de nós
+//---------------------------------------------------------------------------------------
+
+grafo0.h
+   Grafo dirigido SEM pesos nas arestas
+
+grafos.h
+   Grafo dirigido com UM peso (int) em cada aresta	
+
+grafos2.h
+   Grafo dirigido com DOIS pesos (int) em cada aresta 
+
+
+//------------------ Filas de prioridade e filas FIFO
+heapMax.h
+
+heapMin.h 
+
+queue.h 
+  fila FIFO que guarda valores do tipo int
+
+//-------------- Listas -----------------------
+
+lists.h 
+  lista ligada simples para valores int
+
+//---------------  Pilhas -----------------------
+stack_v1.h
+  pilha para int
+
+stack_v0.h
+  pilha para int (outra implementação)
+
+
+
+
