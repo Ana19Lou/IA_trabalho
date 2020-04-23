@@ -159,30 +159,68 @@ class Heapmax {
 /*Estrategia greedy para colocar os guardas nos vertices dos retangulos */
 
 public class ex1 {
+	public static void createHeapMax(HashMap<Integer,ArrayList<Pair>> map,
+			int n_possibleRectangles, ArrayList<Integer> possibleRectangles,
+			int totalRecs) {
+
+		int currentRec;
+		ArrayList<Pair> currentList;
+		int[] dist = new int[totalRecs+1];
+		for(int i=1; i<=totalRecs;i++) {
+			dist[i] = 0;
+		}
+		for(int i=0; i<n_possibleRectangles; i++) {
+			currentRec = possibleRectangles.get(i);
+			currentList = map.get(currentRec);
+			dist[i] = currentList.size();
+		}
+		Heapmax h = new Heapmax(dist,n_possibleRectangles);
+		while(!h.isEmpty()) {
+			currentRec = h.extractMax();
+			//Agora falta ver qual destes vertices ocorre mais vezes nos rectandulos a considerar
+			//Escolher o vertice e retirar de todos os rectangulos
+		}
+	}
+
 	public static void createInstance(int n_rectangles, Scanner in) {
 		int rectangle, x, y,vertices;
 		HashMap<Integer, ArrayList<Pair>> map = new HashMap<>(); 
+
 		for(int i=0; i<n_rectangles;i++) {
 			ArrayList<Pair> pairs = new ArrayList<>();
 			rectangle = in.nextInt();
 			vertices = in.nextInt();
+
 			for(int j=0; j<vertices;j++) {
 				x = in.nextInt();
 				y = in.nextInt();
 				Pair p = new Pair(x,y);
 				pairs.add(p);
 			}
+
 			map.put(rectangle,pairs);
 		}
-		//createHeapMax(map);
+		
+		//Ate aqui é igual ao input da ficha 1, mas agora no final acrescenta-se
+		//uma linha que diz quantos e quais retangulos a analisar
+		int n_possibleRectangles = in.nextInt();
+		ArrayList<Integer> possibleRectangles = new ArrayList<>();
+
+		for(int i=0; i<n_possibleRectangles;i++) {
+			possibleRectangles.add(in.nextInt());
+		}
+
+		createHeapMax(map,n_possibleRectangles,possibleRectangles,n_rectangles);
 	}
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		int n_instances = in.nextInt();
+
 		for(int i=0; i<n_instances;i++) {
 			int n_rectangles = in.nextInt();
 			createInstance(n_rectangles,in);
 		}
+
 	}
 }
