@@ -200,7 +200,7 @@ public class ex1 {
 
 			map.put(rectangle,pairs);
 		}
-		
+
 		//Ate aqui é igual ao input da ficha 1, mas agora no final acrescenta-se
 		//uma linha que diz quantos e quais retangulos a analisar
 		int n_possibleRectangles = in.nextInt();
@@ -221,6 +221,6 @@ public class ex1 {
 			int n_rectangles = in.nextInt();
 			createInstance(n_rectangles,in);
 		}
-
+		
 	}
 }
