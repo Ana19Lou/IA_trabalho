@@ -77,6 +77,7 @@ public class greedyHeapMin {
 				haveGuards.add(maxGuardedRecs.get(j));
 			    map.remove(maxGuardedRecs.get(j));
 			}
+			System.out.println("All rects guarded: "+haveGuards);
 			System.out.println(guardedPairs);
 		}
 

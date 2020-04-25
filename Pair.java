@@ -15,12 +15,12 @@ class Pair {
 		return "(" + x + ", " + y + ")";
     }
 
-    public static int getX(){
-		return x;
+    public int getX(){
+		return this.x;
     }
 
-    public static int getY(){
-		return y;
+    public int getY(){
+		return this.y;
     }
 
 	public boolean equals(Object o) {

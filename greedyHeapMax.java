@@ -17,12 +17,9 @@ public class greedyHeapMax {
 		for(int i=1; i<=totalRecs; i++) {
 			if(!possibleRectangles.contains(i)) {
 				map.remove(i);
-				//System.out.println("Nao e um rectangle na lista");
-				//System.out.println("A remover :"+map.remove(i));
 			} else {
 				currentList = map.get(i);
 				dist[i] = currentList.size();
-				//System.out.println("O tamanho da lista de "+i+ " e: "+dist[i]);
 			}
 		}
 		Heapmax h = new Heapmax(dist,totalRecs);
@@ -34,41 +31,31 @@ public class greedyHeapMax {
 		ArrayList<Integer> guardedRecs = new ArrayList<Integer>();
 		ArrayList<Integer> maxGuardedRecs = new ArrayList<Integer>();
 		ArrayList<Pair> guardedPairs = new ArrayList<>();
-		//A correr bem ate aqui
 		while(!h.isEmpty()) {
 			currentRec = h.extractMax();
 			if(dist[currentRec] == 0) break;
 			currentList = map.get(currentRec);
 			if(currentList == null) continue;
-			System.out.println(currentRec + ": "+currentList);
 			for(int i=0;i<currentList.size();i++) {
 				pair = currentList.get(i);
-				//System.out.println(pair);
 				val = 0;
 				for(int j=1; j<=totalRecs;j++) {
 					if(map.get(j) == null) {
 						continue;
 					} else {
-						System.out.println(map.get(j));
 						if(map.get(j).contains(pair)) {
 							val++;
 							guardedRecs.add(j);
-							System.out.println("Atual val: "+val);
-							System.out.println("GuardedRecs: "+guardedRecs);
 						}
 					}
 				}
 				if(val > max) {
 					max = val;
-					// maxGuardedRecs.clear();
 					maxGuardedRecs = new ArrayList<>(guardedRecs);
 					guardedRecs.clear();
 					pairMax = pair;
-					System.out.println("PairMax: "+pairMax);
-					System.out.println("Recs: "+maxGuardedRecs);
 				}
 				if(max == 3) {
-					System.out.println("Aqui");
 					break;
 				} else {
 					val = 0;
@@ -80,8 +67,8 @@ public class greedyHeapMax {
 			for(int j=0;j<maxGuardedRecs.size();j++) {
 				haveGuards.add(maxGuardedRecs.get(j));
 			    map.remove(maxGuardedRecs.get(j));
-			    System.out.println("All rects guarded: "+haveGuards);
 			}
+			System.out.println("All rects guarded: "+haveGuards);
 			System.out.println(guardedPairs);
 		}
 
