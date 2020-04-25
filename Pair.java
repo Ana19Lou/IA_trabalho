@@ -13,7 +13,15 @@ class Pair {
 
 	public String toString() {
 		return "(" + x + ", " + y + ")";
-	}
+    }
+
+    public static int getX(){
+		return x;
+    }
+
+    public static int getY(){
+		return y;
+    }
 
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass())
