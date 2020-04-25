@@ -1,34 +1,9 @@
 import java.lang.*;
 import java.util.*;
 
-/* Classe par para cada vertice*/
-class Pair {
-	public final int x;   
-	public final int y;  
-
-	public Pair(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	public String toString() {
-		return "(" + x + ", " + y + ")";
-	}
-
-	public boolean equals(Object o) {
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		Pair pair = (Pair) o;
-
-		return this.x == pair .x && this.y == pair.y;
-	}
-}
-
-
 /*Estrategia greedy para colocar os guardas nos vertices dos retangulos */
 
-public class greedyHeapMax implements Heapmax {
+public class greedyHeapMax {
 	public static void createHeapMax(HashMap<Integer,ArrayList<Pair>> map,
 			int n_possibleRectangles, ArrayList<Integer> possibleRectangles,
 			int totalRecs) {
@@ -53,34 +28,33 @@ public class greedyHeapMax implements Heapmax {
 		Heapmax h = new Heapmax(dist,totalRecs);
 		ArrayList<Integer> haveGuards = new ArrayList<Integer>();
 		Pair pair;
+		Pair pairMax = null;
 		int val = 0;
 		int max = 0;
 		ArrayList<Integer> guardedRecs = new ArrayList<Integer>();
 		ArrayList<Integer> maxGuardedRecs = new ArrayList<Integer>();
+		ArrayList<Pair> guardedPairs = new ArrayList<>();
 		//A correr bem ate aqui
 		while(!h.isEmpty()) {
 			currentRec = h.extractMax();
 			if(dist[currentRec] == 0) break;
 			currentList = map.get(currentRec);
-			if(currentList == null) break;
-			//System.out.println(currentList);
+			if(currentList == null) continue;
+			System.out.println(currentRec + ": "+currentList);
 			for(int i=0;i<currentList.size();i++) {
 				pair = currentList.get(i);
 				//System.out.println(pair);
+				val = 0;
 				for(int j=1; j<=totalRecs;j++) {
 					if(map.get(j) == null) {
-						// System.out.println("Not valid in: "+j);
-						// System.out.println("-------------------------------------");
 						continue;
 					} else {
-						// System.out.println(map.get(j));
-						// System.out.println("map.get("+j+").contains"+pair+"= "+map.get(j).contains(pair));
-						// System.out.println("-------------------------------------");
+						System.out.println(map.get(j));
 						if(map.get(j).contains(pair)) {
 							val++;
 							guardedRecs.add(j);
-							// System.out.println("Atual val: "+val);
-							// System.out.println("GuardedRecs: "+guardedRecs);
+							System.out.println("Atual val: "+val);
+							System.out.println("GuardedRecs: "+guardedRecs);
 						}
 					}
 				}
@@ -89,9 +63,9 @@ public class greedyHeapMax implements Heapmax {
 					// maxGuardedRecs.clear();
 					maxGuardedRecs = new ArrayList<>(guardedRecs);
 					guardedRecs.clear();
-					// System.out.println("Val: "+max);
+					pairMax = pair;
+					System.out.println("PairMax: "+pairMax);
 					System.out.println("Recs: "+maxGuardedRecs);
-					System.out.println("Recs222: "+guardedRecs);
 				}
 				if(max == 3) {
 					System.out.println("Aqui");
@@ -101,12 +75,14 @@ public class greedyHeapMax implements Heapmax {
 					guardedRecs.clear();
 				}
 			}
-			System.out.println("maxGuardedRecs.size(): "+maxGuardedRecs.size());
+			max = 0;
+			if(pairMax != null) guardedPairs.add(pairMax);
 			for(int j=0;j<maxGuardedRecs.size();j++) {
 				haveGuards.add(maxGuardedRecs.get(j));
 			    map.remove(maxGuardedRecs.get(j));
 			    System.out.println("All rects guarded: "+haveGuards);
 			}
+			System.out.println(guardedPairs);
 		}
 
 	}

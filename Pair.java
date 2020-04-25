@@ -1,24 +1,34 @@
-/**
- * Classe Par para cada vertice
- */
-
+/* 
+	Classe par para cada vertice
+*/
+	
 class Pair {
-    private static int x;   
-    private static int y;  
+	public final int x;   
+	public final int y;  
 
-    public Pair(int x, int y) {
-	this.x = x;
-	this.y = y;
-    }
+	public Pair(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
-    public String toString() {
-	return "(" + x + ", " + y + ")";
+	public String toString() {
+		return "(" + x + ", " + y + ")";
     }
 
     public static int getX(){
-	return x;
+		return x;
     }
+
     public static int getY(){
-	return y;
+		return y;
     }
+
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Pair pair = (Pair) o;
+
+		return this.x == pair .x && this.y == pair.y;
+	}
 }
