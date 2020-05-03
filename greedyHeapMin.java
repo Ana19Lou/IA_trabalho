@@ -1,4 +1,3 @@
-import java.lang.*;
 import java.util.*;
 
 /*Estrategia greedy para colocar os guardas nos vertices dos retangulos */
@@ -16,10 +15,10 @@ public class greedyHeapMin {
 	}
 	for(int i=1; i<=totalRecs; i++) {
 	    if(!possibleRectangles.contains(i)) {
-		map.remove(i);
+			map.remove(i);
 	    } else {
-		currentList = map.get(i);
-		dist[i] = currentList.size();
+			currentList = map.get(i);
+			dist[i] = currentList.size();
 	    }
 	}
 
@@ -46,12 +45,12 @@ public class greedyHeapMin {
 
 		for(int j=1; j<=totalRecs;j++) {
 		    if(map.get(j) == null) {
-			continue;
+				continue;
 		    } else {
-			if(map.get(j).contains(pair)) {
-			    val++;
-			    guardedRecs.add(j);
-			}
+				if(map.get(j).contains(pair)) {
+					val++;
+					guardedRecs.add(j);
+				}
 		    }
 		}
 
@@ -74,13 +73,12 @@ public class greedyHeapMin {
 	    if(pairMax != null) guardedPairs.add(pairMax);
 
 	    for(int j=0;j<maxGuardedRecs.size();j++) {
-		haveGuards.add(maxGuardedRecs.get(j));
-		map.remove(maxGuardedRecs.get(j));
+			haveGuards.add(maxGuardedRecs.get(j));
+			map.remove(maxGuardedRecs.get(j));
 	    }
-	    System.out.println("All rects guarded: "+haveGuards);
-	    System.out.println(guardedPairs);
-	}
-
+	    
+		}
+		System.out.println("Guards are in vertices: "+guardedPairs);
     }
 
     public static void createInstance(int n_rectangles, Scanner in) {
@@ -115,13 +113,13 @@ public class greedyHeapMin {
     }
 
     public static void main(String[] args) {
-	Scanner in = new Scanner(System.in);
-	int n_instances = in.nextInt();
+		Scanner in = new Scanner(System.in);
+		int n_instances = in.nextInt();
 
-	for(int i=0; i<n_instances;i++) {
-	    int n_rectangles = in.nextInt();
-	    createInstance(n_rectangles,in);
-	}
+		for(int i=0; i<n_instances;i++) {
+			int n_rectangles = in.nextInt();
+			createInstance(n_rectangles,in);
+		}
 
     }
 }

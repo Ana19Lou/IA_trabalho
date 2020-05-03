@@ -8,10 +8,8 @@ public class greedyVertices {
 		for (int i = 1; i <= n_rectangles; i++) {
 			if (!possibleRectangles.contains(i)) {
 				for (Map.Entry<Integer, ArrayList<Integer>> entry : map.entrySet()) {
-					System.out.println(entry.getKey() + " = " + entry.getValue());
 					if (entry.getValue().contains(i)) {
 						entry.getValue().remove(entry.getValue().indexOf(i));
-						System.out.println("After removing: " + entry.getKey() + " = " + entry.getValue());
 					}
 				}
 
@@ -19,32 +17,40 @@ public class greedyVertices {
 		}
 	}
 
-	public static HashMap<Integer, ArrayList<Integer>> sortByValue(HashMap<Integer, ArrayList<Integer>> map) {
-		// Create a list from elements of HashMap 
-        List<Map.Entry<Integer, ArrayList<Integer>>> list = new LinkedList<Map.Entry<Integer, ArrayList<Integer>> >(map.entrySet()); 
-  
-        // Sort the list 
-        Collections.sort(list, new Comparator<Map.Entry<Integer, ArrayList<Integer>> >() { 
-            public int compare(Map.Entry<Integer, ArrayList<Integer>> o1, Map.Entry<Integer, ArrayList<Integer>> o2) { 
-                return o2.getValue().size() - o1.getValue().size(); 
-            } 
-        }); 
-          
-        // put data from sorted list to hashmap  
-        HashMap<Integer, ArrayList<Integer>> temp = new LinkedHashMap<Integer, ArrayList<Integer>>(); 
-        for (Map.Entry<Integer, ArrayList<Integer>> aa : list) { 
-            temp.put(aa.getKey(), aa.getValue()); 
-        } 
-        return temp; 
-	}
-
 	private static void createMapVertice(ArrayList<Integer> possibleRectangles, HashMap<Integer, ArrayList<Integer>> map, int n_rectangles) {
 		removeRectangles(n_rectangles, possibleRectangles, map);
-		HashMap<Integer, ArrayList<Integer>> sortedMap = sortByValue(map);
-		System.out.println(sortedMap.entrySet().iterator().next().getValue());
-		// while(possibleRectangles.size() != 0) {
-
-		// }
+		int max = 0;
+		int maxVertice = 0;
+		ArrayList<Integer> guardedVertices = new ArrayList<>();
+		ArrayList<Integer> rectanglesMax = new ArrayList<>();
+		while(possibleRectangles.size() != 0) {
+			for (Map.Entry<Integer, ArrayList<Integer>> entry : map.entrySet()) {
+				ArrayList<Integer> listRectangles = entry.getValue();
+				if(listRectangles.size() == 3) {
+					rectanglesMax = new ArrayList<>(listRectangles);
+					maxVertice = entry.getKey();
+					break;
+				} else {
+					if(listRectangles.size() > max) {
+						rectanglesMax = new ArrayList<>(listRectangles);
+						max = listRectangles.size();
+						maxVertice = entry.getKey();
+					}
+				}
+			}
+			guardedVertices.add(maxVertice);
+			max = 0;
+			maxVertice = 0;
+			if(rectanglesMax.size() != 0) {
+				for(Integer rec : rectanglesMax) {
+					if(possibleRectangles.contains(rec)) {
+						possibleRectangles.remove(rec);
+					}
+				}
+				removeRectangles(n_rectangles, possibleRectangles, map);
+			}
+		}
+		System.out.println("Guards are in vertices: "+guardedVertices);
 	}
 
 	public static void createInstance(int n_rectangles, Scanner in) {
@@ -68,7 +74,6 @@ public class greedyVertices {
 				}
 			}
 		}
-		System.out.println(map);
 		int n_possibleRectangles = in.nextInt();
 		ArrayList<Integer> possibleRectangles = new ArrayList<>();
 		for (int i = 0; i < n_possibleRectangles; i++) {
