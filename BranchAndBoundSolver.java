@@ -84,6 +84,25 @@ public class BranchAndBoundSolver {
 			vertices.add(vertice);
         }
 
-		return vertices;
+        ArrayList<Integer> finalVertices = new ArrayList<>(vertices);
+        for(Integer vertice1: vertices) {
+            if(finalVertices.size() == 1) break;
+            for(Integer vertice2: vertices) {
+                ArrayList<Integer> tempvertices1 = new ArrayList<>(solution.get(vertice1));
+                ArrayList<Integer> tempvertices2 = new ArrayList<>(solution.get(vertice2));
+                if(vertice1 == vertice2) break;
+                if(finalVertices.contains(vertice1) && finalVertices.contains(vertice2)) {
+                    if(tempvertices1.size() <= tempvertices2.size()) {
+                        tempvertices1.retainAll(tempvertices2);
+                        if(tempvertices1.size() == solution.get(vertice1).size()){
+                            if(finalVertices.contains(vertice1)) {
+                                finalVertices.remove(vertice1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		return finalVertices;
 	}
 }
