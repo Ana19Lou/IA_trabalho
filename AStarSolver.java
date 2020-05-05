@@ -3,53 +3,111 @@ import java.util.*;
 public class AStarSolver {
     Integer numberOfRectanglesToGuard;
 
-    HashMap<Integer, ArrayList<Integer>> rectangleVertice;
     HashMap<Integer, ArrayList<Integer>> verticeRectangle;
+    HashMap<Integer, ArrayList<Integer>> rectangleVertice;
+    ArrayList<Integer> rectanglesToGuard;
+    ArrayList<Integer> path;
 
-    AStarSolver(int nRec, HashMap<Integer, ArrayList<Integer>> rectangleVertice, HashMap<Integer, ArrayList<Integer>> verticeRectangle) {
-        this.rectangleVertice = rectangleVertice;
+    AStarSolver(int nRec,  ArrayList<Integer> rectanglesToGuard, HashMap<Integer, ArrayList<Integer>> verticeRectangle, HashMap<Integer, ArrayList<Integer>> rectangleVertice) {
         this.verticeRectangle = verticeRectangle;
+        this.rectangleVertice = rectangleVertice;
+        this.rectanglesToGuard = rectanglesToGuard;
 
         this.numberOfRectanglesToGuard = nRec;
 
-        this.solve();
+        this.path = new ArrayList<>();
+
+        this.solve(leastH(nRec));
     }
 
-    public void solve() {
-        // Rectangulos não vigiados
-        ArrayList<AStarNode> openList = new ArrayList<>();
+    public void solve(Integer startVertice) {
+        TreeSet<AStarNode> openList = new TreeSet<>();
+        TreeSet<AStarNode> closedList = new TreeSet<>();
+
+        AStarNode start = new AStarNode(startVertice, getH(startVertice));
+        openList.add(start);
         
-        // Rectangulos vigiados
-        ArrayList<AStarNode> closedList = new ArrayList<>();
+        while(openList.size() != 0) {
+            AStarNode current = leastHAStarNode(openList);
+            this.path.add(current.vertice);
+            System.out.println(current);
+            
+            rectanglesToGuard.removeAll(this.verticeRectangle.get(current.vertice));
+            if (rectanglesToGuard.size() == 0) break;
+            closedList.add(current);
 
-        ArrayList<Integer> guardedRectangles = new ArrayList<>();
-
-        while(guardedRectangles.size() != numberOfRectanglesToGuard) {
-            AStarNode q = this.higherGuardedRectangles(openList);
-            openList.remove(q);
-            closedList.add(q);
-            ArrayList<AStarNode> successors = this.getSuccessors(q);
-
-            for (AStarNode successor : successors) {
-                
+            for (AStarNode neighbor : this.getNeighbors(current, closedList)) {
+                if (!closedList.contains(neighbor)) {
+                    if (!openList.contains(neighbor)) {
+                        openList.add(neighbor);
+                    } else {
+                        int openListNeighborH = Integer.MAX_VALUE;
+                        AStarNode openListNeighbor = null;
+                        for (AStarNode node : openList) {
+                            if (node.vertice == neighbor.vertice) {
+                                openListNeighborH = node.h;
+                                openListNeighbor = node;
+                            }
+                        }
+                        if (openListNeighbor != null && neighbor.h < openListNeighborH) {
+                            openListNeighbor.h = neighbor.h;
+                            openListNeighbor.parent = neighbor.parent;
+                        }
+                    }
+                }
             }
         }
     }
 
-    public AStarNode leastH(ArrayList<AStarNode> openList) {
-        int min = Integer.MAX_VALUE;
-        AStarNode q;
+    private AStarNode leastHAStarNode(TreeSet<AStarNode> openList) {
+        int minH = Integer.MAX_VALUE;
+        AStarNode minNode = openList.first();
         for (AStarNode node : openList) {
-            if (node.h < min) {
-                min = node.h;
-                q = node;
+            if (node.h < minH) {
+                minNode = node;
+                minH = node.h;
             }
         }
-
-        return q;
+        return minNode;
     }
 
-    public ArrayList<AStarNode> getSuccessors(AStarNode q) {
-        return new ArrayList<>();
+    private TreeSet<AStarNode> getNeighbors(AStarNode node, TreeSet<AStarNode> closedList) {
+        TreeSet<AStarNode> verticeNodes = new TreeSet<>();
+        ArrayList<Integer> closedListVertices = this.getVerticesFromAStarNodeList(closedList);
+        for (Integer rectangle : this.rectanglesToGuard) {
+            ArrayList<Integer> allVertices = this.rectangleVertice.get(rectangle);
+            for (Integer vertice : allVertices) {
+                if (vertice != node.vertice && !closedListVertices.contains(vertice)) {
+                    verticeNodes.add(new AStarNode(vertice, getH(vertice)));
+                }
+            }
+        }
+        return verticeNodes;
+    }
+
+    private ArrayList<Integer> getVerticesFromAStarNodeList(TreeSet<AStarNode> list) {
+        ArrayList<Integer> vertices = new ArrayList<>();
+        for (AStarNode node: list) {
+            vertices.add(node.vertice);
+        }
+        return vertices;
+    }
+
+    public int getH(Integer vertice) {
+        ArrayList<Integer> rectanglesLeft = new ArrayList<>(this.rectanglesToGuard);
+        rectanglesLeft.removeAll(verticeRectangle.get(vertice));
+        return rectanglesLeft.size();
+    }
+
+    private int leastH(int nRectanglesLeft) {
+        int vertice = 0;
+        int min = Integer.MAX_VALUE;
+        for(Map.Entry<Integer, ArrayList<Integer>> entry : verticeRectangle.entrySet()) {
+            if((nRectanglesLeft - entry.getValue().size()) < min) {
+                min = nRectanglesLeft - entry.getValue().size();
+                vertice = entry.getKey();
+            }
+        }
+        return vertice;
     }
 }
