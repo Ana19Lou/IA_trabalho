@@ -28,40 +28,67 @@ public class IteratedLocalSearchSolver {
         HashMap<Integer, Integer> guards = new HashMap<>();
         guards = creategreedySolution(guards);
         int h = getHeuristic(guards);
-        bestPath = guards;
         bestH = h;
-        HashMap<Integer, Integer> firstPath = guards;
-        for(Integer vert : firstPath.keySet()) {
-            guards = new HashMap<>(firstPath);
-            if(guards.get(vert) == 0) {
-                guards.replace(vert,1);
+        for(Map.Entry<Integer, Integer> entry : guards.entrySet()) {
+            bestPath.put(entry.getKey(), entry.getValue());
+        }
+
+        for(Integer vertice : guards.keySet()) {
+            if(guards.get(vertice) == 1) {
+                guards.replace(vertice, 0);
             } else {
-                guards.replace(vert,0);
+                guards.replace(vertice, 1);
             }
             h = getHeuristic(guards);
             if(h < bestH) {
                 bestH = h;
-                bestPath = guards;
+                for(Map.Entry<Integer, Integer> entry : guards.entrySet()) {
+                    bestPath.put(entry.getKey(), entry.getValue());
+                }
             }
-            HashMap<Integer, Integer> secondPath;
-            secondPath = new HashMap<>(guards);
-            System.out.println("Second Path: "+secondPath);
-            for(Integer secondVert : secondPath.keySet()) {
-                if(secondVert == vert) continue;
-                guards = new HashMap<>(secondVert);
-                System.out.println("Fisrt Flip: "+firstPath);
-                System.out.println("Second Flip: "+secondPath);
-                if(guards.get(secondVert) == 0) {
-                    guards.replace(secondVert,1);
+            for(Integer secondVertice : guards.keySet()) {
+                if(guards.get(secondVertice) == 1) {
+                    guards.replace(secondVertice, 0);
                 } else {
-                    guards.replace(secondVert,0);
+                    guards.replace(secondVertice, 1);
                 }
                 h = getHeuristic(guards);
                 if(h < bestH) {
                     bestH = h;
-                    bestPath = guards;
+                    for(Map.Entry<Integer, Integer> entry : guards.entrySet()) {
+                        bestPath.put(entry.getKey(), entry.getValue());
+                    }
                 }
-            } 
+                // for(Integer thridVertice : guards.keySet()) {
+                //     if(guards.get(thridVertice) == 1) {
+                //         guards.replace(thridVertice, 0);
+                //     } else {
+                //         guards.replace(thridVertice, 1);
+                //     }
+                //     h = getHeuristic(guards);
+                //     if(h < bestH) {
+                //         bestH = h;
+                //         for(Map.Entry<Integer, Integer> entry : guards.entrySet()) {
+                //             bestPath.put(entry.getKey(), entry.getValue());
+                //         }
+                //     }
+                //     if(guards.get(thridVertice) == 1) {
+                //         guards.replace(thridVertice, 0);
+                //     } else {
+                //         guards.replace(thridVertice, 1);
+                //     }
+                // }
+                if(guards.get(secondVertice) == 1) {
+                    guards.replace(secondVertice, 0);
+                } else {
+                    guards.replace(secondVertice, 1);
+                }
+            }
+            if(guards.get(vertice) == 1) {
+                guards.replace(vertice, 0);
+            } else {
+                guards.replace(vertice, 1);
+            }
         }
         finalVerts = new ArrayList<>();
         for(Integer vert : bestPath.keySet()) {
@@ -72,10 +99,10 @@ public class IteratedLocalSearchSolver {
     }
 
     private HashMap<Integer,Integer> creategreedySolution(HashMap<Integer, Integer> guards) {
-        HashMap<Integer, ArrayList<Integer>> shallowCopy = new HashMap<>();
+        HashMap<Integer, ArrayList<Integer>> copy = new HashMap<>();
         for(Map.Entry<Integer, ArrayList<Integer>> entry : verticeRectangle.entrySet()) {
             ArrayList<Integer> values = new ArrayList<>(entry.getValue());
-            shallowCopy.put(entry.getKey(), values);
+            copy.put(entry.getKey(), values);
         }
 		int max = 0;
 		int maxVertice = 0;
@@ -83,7 +110,7 @@ public class IteratedLocalSearchSolver {
         ArrayList<Integer> rectanglesMax = new ArrayList<>();
         ArrayList<Integer> possibleRectangles = new ArrayList<>(rectanglesToGuard);
 		while(possibleRectangles.size() != 0) {
-			for (Map.Entry<Integer, ArrayList<Integer>> entry : shallowCopy.entrySet()) {
+			for (Map.Entry<Integer, ArrayList<Integer>> entry : copy.entrySet()) {
 				ArrayList<Integer> listRectangles = entry.getValue();
 				if(listRectangles.size() == 3) {
 					rectanglesMax = new ArrayList<>(listRectangles);
@@ -106,10 +133,9 @@ public class IteratedLocalSearchSolver {
 						possibleRectangles.remove(rec);
 					}
 				}
-				removeRectangles(possibleRectangles, shallowCopy);
+				removeRectangles(possibleRectangles, copy);
 			}
         }
-        System.out.println("verticeRectangle: "+verticeRectangle);
         for(Integer vertice: verticeRectangle.keySet()) {
             if(guardedVertices.contains(vertice)) {
                 guards.put(vertice, 1);
@@ -138,27 +164,17 @@ public class IteratedLocalSearchSolver {
         g = 0;
         f = 0;
         ArrayList<Integer> rectanglesNotGuarded = new ArrayList<>(rectanglesToGuard);
-        //System.out.println("rectanglesToGuard"+rectanglesToGuard);
-        System.out.println("rectanglesNotGuarded"+rectanglesNotGuarded);
         for(Integer vertice: guards.keySet()) {
             if(guards.get(vertice) == 1) {
                 g++;
-                //System.out.println("verticeRectangle.get(vertice):"+verticeRectangle.get(vertice));
                 for(Integer rectangle: verticeRectangle.get(vertice)) {
-                    //System.out.println("A ver o retangulo: "+rectangle);
                     if(rectanglesNotGuarded.contains(rectangle)) {
                         rectanglesNotGuarded.remove(rectangle);
                     }
                 }
             }
         }
-        System.out.println("rectanglesNotGuarded after"+rectanglesNotGuarded);
         f = rectanglesNotGuarded.size();
-        System.out.println("G: "+g);
-        System.out.println("F: "+f);
-        System.out.println("R: "+allRecs);
-        int val = g + f * (2 * allRecs + 3);
-        System.out.println("G+F(2R+3): "+val);
         return (g + f * (2 * allRecs + 3));
     }
 

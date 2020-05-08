@@ -6,7 +6,6 @@ public class IteratedLocalSearch{
 
 	public static void createIteratedLocalSearch(ArrayList<Integer> possibleRectangles,HashMap<Integer, ArrayList<Integer>> map,int n_rectangles, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		removeRectangles(n_rectangles, possibleRectangles, map, mapRec);
-		System.out.println("possibleRectangles"+possibleRectangles);
         IteratedLocalSearchSolver iteratedLocalSearch = new IteratedLocalSearchSolver(n_rectangles, possibleRectangles, map);
 		System.out.println("Melhor heuristica: "+iteratedLocalSearch.bestH);
 		System.out.println("No caminho: "+iteratedLocalSearch.finalVerts);
