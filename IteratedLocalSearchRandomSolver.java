@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 public class IteratedLocalSearchRandomSolver {
     HashMap<Integer,Integer> bestPath;
@@ -28,7 +26,10 @@ public class IteratedLocalSearchRandomSolver {
         int h = getHeuristic(guards,rectanglesToGuard);
         bestPath = guards;
         bestH = h;
-        HashMap<Integer, Integer> firstPath = guards;
+        HashMap<Integer, Integer> firstPath = new HashMap<>();
+        for(Map.Entry<Integer, Integer> entry : guards.entrySet()) {
+            firstPath.put(entry.getKey(), entry.getValue());
+        }
         for(Integer vert : firstPath.keySet()) {
             guards = new HashMap<>(firstPath);
             if(guards.get(vert) == 0) {
