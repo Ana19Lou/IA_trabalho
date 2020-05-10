@@ -1,23 +1,15 @@
 import java.util.*;
 
-/*Estrategia AC-3 para colocar os guardas nos vertices dos retangulos */
+/*Estrategia DFS para colocar os guardas nos vertices dos retangulos */
 
-public class AC3{
+public class SimulatedAnneling{
 
-    public static void createAC3(ArrayList<Integer> possibleRectangles,HashMap<Integer, ArrayList<Integer>> map,int n_rectangles, HashMap<Integer, 
-    ArrayList<Integer>> mapRec, HashMap<Integer, Integer> domain) {
+	public static void createSimulatedAnneling(ArrayList<Integer> possibleRectangles,HashMap<Integer, ArrayList<Integer>> map,int n_rectangles, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		removeRectangles(n_rectangles, possibleRectangles, map, mapRec);
-		AC3Solver aC3Solver = new AC3Solver(possibleRectangles.size(), possibleRectangles, map, mapRec, domain);
-		int min = Integer.MAX_VALUE;
-		ArrayList<Integer> bestPath = new ArrayList<>();
-		for(ArrayList<Integer> path: aC3Solver.allPaths) {
-            if(min > path.size()) {
-                min = path.size();
-                bestPath = path;
-            }
-		}
-		System.out.println(bestPath);
+        SimulatedAnnelingSolver simulatedAnneling = new SimulatedAnnelingSolver(n_rectangles, possibleRectangles, map);
+        System.out.println("Melhor caminho obtido: "+simulatedAnneling.bestPath);
 	}
+
 
 	private static void removeRectangles(int n_rectangles, ArrayList<Integer> possibleRectangles, HashMap<Integer, ArrayList<Integer>> map, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		for (int i = 1; i <= n_rectangles; i++) {
@@ -41,12 +33,12 @@ public class AC3{
     public static void createInstance(int n_rectangles, Scanner in) {
 		int rectangle, x, y,vertices, vert;
 		HashMap<Integer, ArrayList<Integer>> map = new HashMap<>(); 
-        HashMap<Integer, ArrayList<Integer>> mapRec = new HashMap<>(); 
-        HashMap<Integer, Integer> domain = new HashMap<>();
+		HashMap<Integer, ArrayList<Integer>> mapRec = new HashMap<>(); 
 
 		for(int i=0; i<n_rectangles;i++) {
 			rectangle = in.nextInt();
             vertices = in.nextInt();
+
 
 			ArrayList<Integer> recVertices = new ArrayList<>();
 			for(int j=0; j<vertices;j++) {
@@ -59,8 +51,7 @@ public class AC3{
                     ArrayList<Integer> newRec = new ArrayList<>();
                     newRec.add(rectangle);
 					map.put(vert, newRec);
-                }
-                domain.put(vert, null);
+				}
 				recVertices.add(vert);
 			}
 			mapRec.put(rectangle, recVertices);
@@ -70,7 +61,7 @@ public class AC3{
 		for(int i=0; i<n_possibleRectangles;i++) {
             possibleRectangles.add(in.nextInt());
         }
-        createAC3(possibleRectangles,map,n_rectangles,mapRec, domain);
+        createSimulatedAnneling(possibleRectangles,map,n_rectangles,mapRec);
 	}
 
     public static void main(String[] args) {
