@@ -27,7 +27,7 @@ public class SimulatedAnnelingSolver {
     
     public void solve() {
         double temperature = 10000;
-        double coolingRate = 0.005;
+        double coolingRate = 0.002;
         double maxProb = 1;
         int delta;
         HashMap<Integer, Integer> currentSolution = new HashMap<>();
