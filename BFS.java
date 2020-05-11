@@ -7,17 +7,7 @@ public class BFS{
 	public static void createBFS(ArrayList<Integer> possibleRectangles,HashMap<Integer, ArrayList<Integer>> map,int n_rectangles, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		removeRectangles(n_rectangles, possibleRectangles, map, mapRec);
         BFSSolver bfsSolver = new BFSSolver(possibleRectangles.size(), possibleRectangles, mapRec,map);
-        ArrayList<Integer> bestPath = new ArrayList<>();
-        int min = Integer.MAX_VALUE;
-        for(ArrayList<Integer> path: bfsSolver.allPaths) {
-            if(min > path.size()) {
-                min = path.size();
-                bestPath = path;
-            }
-        }
-		// System.out.println(bestPath);
-		System.out.println(bfsSolver.allPaths);
-		
+		System.out.println(new TreeSet<>(bfsSolver.bestSolution));
 	}
 
 

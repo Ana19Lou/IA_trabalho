@@ -30,7 +30,6 @@ public class AStarSolver {
         while(openList.size() != 0) {
             AStarNode current = leastHAStarNode(openList);
             this.path.add(current.vertice);
-            //System.out.println(current);
             
             rectanglesToGuard.removeAll(this.verticeRectangle.get(current.vertice));
             if (rectanglesToGuard.size() == 0) break;

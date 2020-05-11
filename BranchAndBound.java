@@ -1,9 +1,11 @@
 import java.util.*;
 
+/*Estrategia Branch-and-Bound para colocar os guardas nos vertices dos retangulos */
+
 public class BranchAndBound {
     private static void createBranchAndBound(ArrayList<Integer> possibleRectangles, HashMap<Integer, ArrayList<Integer>> map, int n_rectangles, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		removeRectangles(n_rectangles, possibleRectangles, map, mapRec);
-		BranchAndBoundSolver bbSolver = new BranchAndBoundSolver(possibleRectangles.size(), possibleRectangles, mapRec, map);
+		BranchAndBoundSolver bbSolver = new BranchAndBoundSolver(possibleRectangles.size(),n_rectangles, possibleRectangles, mapRec, map);
 		System.out.println(bbSolver.bestPath);
 	}
 	

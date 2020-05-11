@@ -31,7 +31,6 @@ public class IterativeDeepeningSearchSolver {
                 break;
             } else {
                 bound++;
-                //System.out.println("Changed the bound to "+bound);
             }
         }
     }
@@ -40,7 +39,6 @@ public class IterativeDeepeningSearchSolver {
         if(path.size() <= bound) {
             if (guardedRectangles.size() == this.numberOfRectanglesToGuard) {
                 allPaths.add(path);
-                //System.out.println("Added path "+path);
                 hitDepthBound = true;
             } else {
                 for (Integer rectangle : lowerVertices(rectanglesToGuard)) {
@@ -52,7 +50,6 @@ public class IterativeDeepeningSearchSolver {
 
                             relativeBestPath.add(vertice);
 
-                            // Rectangles
                             for (Integer r : this.verticeRectangle.get(vertice)) {
                                 int index = relativeRectanglesToGuard.indexOf(r);
                                 if (index >= 0) {

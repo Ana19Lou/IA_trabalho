@@ -18,10 +18,6 @@ public class AStarNode implements Comparable<AStarNode> {
 			return false;
 
         AStarNode node = (AStarNode) o;
-
-        System.out.println("this.vertice: " + this.vertice + " node.vertice: " + node.vertice + " = " + (this.vertice == node.vertice));
-
-		// return this.vertice == node.vertice && this.h == node.h && this.parent == node.parent;
 		return this.vertice == node.vertice;
     }
 
