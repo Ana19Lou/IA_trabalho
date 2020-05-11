@@ -1,18 +1,20 @@
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class BranchAndBoundSolver {
     ArrayList<Integer> bestPath;
     Integer bound;
+    Integer allRecs;
 
     Integer numberOfRectanglesToGuard;
 
     HashMap<Integer, ArrayList<Integer>> rectangleVertice;
     HashMap<Integer, ArrayList<Integer>> verticeRectangle;
 
-    BranchAndBoundSolver(int nRec, ArrayList<Integer> rectanglesToGuard, HashMap<Integer, ArrayList<Integer>> rectangleVertice, HashMap<Integer, ArrayList<Integer>> verticeRectangle) {
+    BranchAndBoundSolver(int nRec,int allRecs, ArrayList<Integer> rectanglesToGuard, HashMap<Integer, ArrayList<Integer>> rectangleVertice, HashMap<Integer, ArrayList<Integer>> verticeRectangle) {
         this.bestPath = new ArrayList<>();
         this.bound = Integer.MAX_VALUE;
+
+        this.allRecs = allRecs;
 
         this.rectangleVertice = rectangleVertice;
         this.verticeRectangle = verticeRectangle;
@@ -26,7 +28,7 @@ public class BranchAndBoundSolver {
         this.solve(new ArrayList<Integer>(), 1, new ArrayList<Integer>(), rectanglesToGuard);
     }
     
-    private void solve(ArrayList<Integer> bestPath, int relativeBound, ArrayList<Integer> guardedRectangles, ArrayList<Integer> rectanglesToGuard) {
+    private ArrayList<Integer> solve(ArrayList<Integer> bestPath, int relativeBound, ArrayList<Integer> guardedRectangles, ArrayList<Integer> rectanglesToGuard) {
         if (bestPath.size() < this.bound) {
             if (guardedRectangles.size() == this.numberOfRectanglesToGuard) {
                 this.bestPath = new ArrayList<>(bestPath);
@@ -41,7 +43,6 @@ public class BranchAndBoundSolver {
     
                             relativeBestPath.add(vertice);
     
-                            // Rectangles
                             for (Integer r : this.verticeRectangle.get(vertice)) {
                                 int index = relativeRectanglesToGuard.indexOf(r);
                                 if (index >= 0) {
@@ -51,13 +52,13 @@ public class BranchAndBoundSolver {
                                     relativeGuardedRectangles.add(r);
                                 }
                             }
-    
                             this.solve(relativeBestPath, relativeBound + 1, relativeGuardedRectangles, relativeRectanglesToGuard);
                         }
                     }
                 }
             }
         }
+        return bestPath;
     }
 
     private ArrayList<Integer> lowerVertices(ArrayList<Integer> rectangles) {

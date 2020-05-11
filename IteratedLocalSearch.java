@@ -1,6 +1,6 @@
 import java.util.*;
 
-/*Estrategia DFS para colocar os guardas nos vertices dos retangulos */
+/*Estrategia Iterated Local Search para colocar os guardas nos vertices dos retangulos */
 
 public class IteratedLocalSearch{
 

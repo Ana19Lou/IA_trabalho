@@ -100,8 +100,6 @@ public class greedyHeapMin {
 	    map.put(rectangle,pairs);
 	}
 
-	//Ate aqui é igual ao input da ficha 1, mas agora no final acrescenta-se
-	//uma linha que diz quantos e quais retangulos a analisar
 	int n_possibleRectangles = in.nextInt();
 	ArrayList<Integer> possibleRectangles = new ArrayList<>();
 
