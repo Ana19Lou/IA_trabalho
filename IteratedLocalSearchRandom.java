@@ -6,9 +6,14 @@ public class IteratedLocalSearchRandom{
 
 	public static void createIteratedLocalSearchRandom(ArrayList<Integer> possibleRectangles,HashMap<Integer, ArrayList<Integer>> map,int n_rectangles, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		removeRectangles(n_rectangles, possibleRectangles, map, mapRec);
-        IteratedLocalSearchRandomSolver iteratedLocalSearchRandom = new IteratedLocalSearchRandomSolver(n_rectangles, possibleRectangles, map);
-		System.out.println(iteratedLocalSearchRandom.bestPath);
-		System.out.println("Esta solução tem heuristica: "+iteratedLocalSearchRandom.bestH);
+		IteratedLocalSearchRandomSolver iteratedLocalSearchRandom = new IteratedLocalSearchRandomSolver(n_rectangles, possibleRectangles, map);
+		ArrayList<Integer> finalVerts = new ArrayList<>();
+		for(Integer vert: iteratedLocalSearchRandom.bestPath.keySet()) {
+			if(iteratedLocalSearchRandom.bestPath.get(vert) == 1) {
+				finalVerts.add(vert);
+			}
+		}
+		System.out.println(finalVerts);
 	}
 
 

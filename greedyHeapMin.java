@@ -78,7 +78,7 @@ public class greedyHeapMin {
 	    }
 	    
 		}
-		System.out.println("Guards are in vertices: "+guardedPairs);
+		System.out.println(guardedPairs);
     }
 
     public static void createInstance(int n_rectangles, Scanner in) {
