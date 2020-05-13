@@ -50,7 +50,7 @@ public class greedyVertices {
 				removeRectangles(n_rectangles, possibleRectangles, map);
 			}
 		}
-		System.out.println("Guards are in vertices: "+guardedVertices);
+		System.out.println(guardedVertices);
 	}
 
 	public static void createInstance(int n_rectangles, Scanner in) {

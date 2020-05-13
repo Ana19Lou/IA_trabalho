@@ -68,7 +68,7 @@ public class greedyHeapMax {
 				map.remove(maxGuardedRecs.get(j));
 			}
 		}
-		System.out.println("Guards are in vertices: "+guardedPairs);
+		System.out.println(guardedPairs);
 
 		}
 

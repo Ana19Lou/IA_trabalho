@@ -7,7 +7,7 @@ public class SimulatedAnneling{
 	public static void createSimulatedAnneling(ArrayList<Integer> possibleRectangles,HashMap<Integer, ArrayList<Integer>> map,int n_rectangles, HashMap<Integer, ArrayList<Integer>> mapRec) {
 		removeRectangles(n_rectangles, possibleRectangles, map, mapRec);
         SimulatedAnnelingSolver simulatedAnneling = new SimulatedAnnelingSolver(n_rectangles, possibleRectangles, map);
-        System.out.println("Melhor caminho obtido: "+simulatedAnneling.bestPath);
+        System.out.println(simulatedAnneling.bestPath);
 	}
 
 
